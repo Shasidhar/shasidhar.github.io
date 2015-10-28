@@ -1,0 +1,12 @@
+# Site settings
+title: Shashidhar Blog
+email: shashidhar.e@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  My learnings, opinions and important notes.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://10.0.0.68:4000" # the base hostname & protocol for your site
+twitter_username: shashidhares
+github_username:  shasidhar
+
+# Build settings
+markdown: kramdown
