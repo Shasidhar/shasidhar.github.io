@@ -5,24 +5,51 @@ date:  2015-01-30 20:32:27
 categories: jekyll update
 ---
 
-In this post we try to understand the mapreduce idea by writing simple java programs. We will see the consequences we face in this journey. To begin with let's start with a problem.
+In this post we try to understand the mapreduce idea by writing simple java programs. We will see the consequences we face on each stage. To begin with let's start with a problem.
 
-####**Given a collection of sales find frequency of each item**
+**Problem Statement** : **Given a collection of sales find frequency of each item**
 
-* Solution 1 : Simple Java
+* Solution 1 : Simple Java way
 
 Take the input file.
 Parse each line of sale and add each item to the HashMap<String,Long>. 
 If the item alredy presents in map increase the count for the item in HashMap
 
+{% highlight java %}
+
+String filePath = args[0];
+BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+String line;
+Map<String,Long> countValues = new HashMap<String,Long>();
+    while ((line=bufferedReader.readLine())!=null) {
+        String columns[] = line.split(",");
+        String item = columns[2];
+        if(!countValues.containsKey(item)){
+              countValues.put(item,1L);
+        } else {
+           long currentCount = countValues.get(item);
+           countValues.put(item,currentCount+1);
+         }
+      }
+System.out.println(countValues);
+{% endhighlight %}
+
+
 This approach is direct way, not mapreduce way and we cannot scale it for the large data. Next solution takes the mapreduce path.
 
 * Solution 2 : Solution using M/R algorithm
 
-Take each line and split into columns.
-For each word output => (word,1)
-Group output by key
-Total all the one's to get final sum
+*MapReduce Algorithm*
+
+1.Take each line and split into columns.
+
+2.For each word output => (word,1)
+
+3.Group output by key
+
+4.Total all the one's to get final sum
+
+
 
 This is in mapreduce way but it is not yet parallel in nature. Next step is to implement the same idea using java threading.
 
