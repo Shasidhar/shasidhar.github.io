@@ -49,19 +49,27 @@ This approach is direct way, not mapreduce way and we cannot scale it for the la
 
 4.Total all the one's to get final sum
 
-
+Refer [MapReduceMain](https://github.com/Shasidhar/mr_in_java/blob/master/src/main/java/com/shashidhar/mrinjava/MapReduceMain.java) for code.
 
 This is in mapreduce way but it is not yet parallel in nature. Next step is to implement the same idea using java threading.
 
 * Solution 3 : 
 
-We take the same idea of solution 2 but we run two mappers now. We add all the lines with linenumber less than 10 to mapper-1 and lines with linenumber more than 10 to mapper-2. 
+
+We take the same idea of solution 2 but we run two mappers now. Line number determines which mapper a line is sent for processing.All lines with linenumber less than 10 to mapper-1 and lines with linenumber more than 10 to mapper-2. 
+
 We create a thread pool using java executer service and add our two mappers into this thread pool. Once we add our mappers we will shutdown the executor so that no other process is added to executor service. 
+
 Next we will block the main program until all the mapper tasks are completed, since we know we should not start reduce until all map operations is done.
+
 Once mappers are completed we will add all the map results, and perform the group operation.
 After grouping we will perform the reduce operation.
 
+Refer [MapReduceMainParallel](https://github.com/Shasidhar/mr_in_java/blob/master/src/main/java/com/shashidhar/mrinjava/MapReduceMainParallel.java) for code.
+
+
 As we observe here we still get the same result even though we run mappers in two different threads. This is the main idea behind the map reduce in hadoop.
+
 So lets not waste time and start looking into the mapreduce in hadoop.
 
 **Map reduce in hadoop**
@@ -74,4 +82,4 @@ So lets not waste time and start looking into the mapreduce in hadoop.
 * Phase 6: Grouping, is the process of grouping the map output based on map output key. It generates the reducer input [mapOutputKey,List[Values]]
 * Phase 7: Reduce , final phase where reducer logic written by the user is applied on the each group of the unique map output key.
 
-
+*This blog illustrates how the idea of mapreduce can be achieved even without use of hadoop in Simple java. It lays out the different pieces of hadoop mapreduce implementation for better understanding*
